@@ -6,7 +6,7 @@ MGeo(Morai Geo) Module is a geometrical data load module to plan the path for wo
 
 If you not use our simulator yet, please visit [our homepage](https://www.morai.ai/) and check out the MORAI Simulator!
 
-Or if you use already, please check the [MORAI Sim manual](https://help-morai-sim-en.scrollhelp.site/).
+Or if you use already, please check the [MORAI Sim manual (EN)](https://help-morai-sim-en.scrollhelp.site/) / [MORAI Sim manual (KR)](https://help-morai-sim.scrollhelp.site/).
 
 # License
 - MGeo Module license info:  [MGeo module License](./docs/License.md)
