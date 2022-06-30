@@ -8,8 +8,6 @@ sys.path.append(os.path.normpath(os.path.join(current_path, '../')))
 
 from class_defs.surface_marking import SurfaceMarking
 from collections import OrderedDict
-from eventhandler import EventHandler
-
 
 class SingleCrosswalk(SurfaceMarking):
     def __init__(self, points=None, idx=None, cw_type=None):
@@ -20,10 +18,6 @@ class SingleCrosswalk(SurfaceMarking):
         self.sign_type = cw_type
         self.ref_crosswalk_id = ''
         self.link_id_list = []
-
-        # event test
-        self.event_handler = EventHandler('onRemoveCrosswalkID')
-        self.event_handler.link(self.remove_ref_crosswalk_id, 'onRemoveCrosswalkID')
     
     def remove_ref_crosswalk_id(self, id):
         if self.ref_crosswalk_id == id:

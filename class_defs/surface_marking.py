@@ -6,7 +6,6 @@ current_path = os.path.dirname(os.path.realpath(__file__))
 sys.path.append(os.path.normpath(os.path.join(current_path, '../')))
 
 from class_defs.base_plane import BasePlane
-from lib.mgeo.utils.set_link_lane_mark import point_out_of_link
 
 import numpy as np
 from collections import OrderedDict
@@ -159,63 +158,3 @@ class SurfaceMarking(BasePlane):
         prop_data['sub_type'] = {'type' : 'string', 'value' : self.sub_type}
         prop_data['type_code_def'] = {'type' : 'string', 'value' : self.type_code_def}
         return prop_data
-
-
-    
-    def find_link_near_surface_mark(self, link_set):
-        center_point = self.calculate_centroid()
-        if len(self.link_id_list) > 0 and self.link_id_list[0] != '' and self.link_id_list[0] in link_set:
-            link_list = [link_set[self.link_id_list[0]]]
-            return self.find_lane_marking(link_list, center_point)
-        else:
-            link_list = self.find_link_list(link_set, center_point)
-            return self.find_lane_marking(link_list, center_point)
-
-    def find_lane_marking(self, link_list, center_point):
-        return_link = None
-        return_lane = None
-        return_link_index = 0
-        return_lane_index = 0
-
-        min_dist = 5
-
-        for clink in link_list:
-            lane_list = []
-            for clane in clink.lane_mark_left:
-                lane_list.append(clane)
-            for clane in clink.lane_mark_right:
-                lane_list.append(clane)
-            
-            for clane in lane_list:
-                bool_val, z_val, pt_idx, dist = point_out_of_link(center_point, clane)
-                if bool_val:
-                    if min_dist > dist:
-                        min_dist = dist
-                        return_lane = clane
-                        return_lane_index = z_val
-
-        min_dist = 5
-
-        for clink in link_list:
-            bool_val, z_val, pt_idx, dist = point_out_of_link(center_point, clink)
-            if bool_val:
-                if min_dist > dist:
-                    min_dist = dist
-                    return_link = clink
-                    return_link_index = pt_idx
-
-        return return_link, return_link_index, return_lane, return_lane_index
-
-
-
-    def find_link_list(self, link_set, center_point):
-        link_list = []
-        boundary = np.array([-10, 10])
-        boundary_x = center_point[0] + boundary
-        boundary_y = center_point[1] + boundary
-        for idx, link in link_set.items():
-            if link.is_out_of_xy_range(boundary_x, boundary_y):
-                continue
-            link_list.append(link)
-        return link_list
-        
